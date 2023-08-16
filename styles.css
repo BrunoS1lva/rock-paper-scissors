@@ -4,6 +4,13 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#main-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 button{
     width: 50px;
