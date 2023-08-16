@@ -6,46 +6,51 @@ let scissorsBtn = document.getElementById("scissors-btn");
 let paperBtn = document.getElementById("paper-btn");
 
 //Adding the eventListener to every button
-rockBtn.addEventListener("click", userChoiceDecider(rock));
-scissorsBtn.addEventListener("click", userChoiceDecider(scissors));
-paperBtn.addEventListener("click", userChoiceDecider(paper));
+rockBtn.addEventListener("click", rockAttack);
+scissorsBtn.addEventListener("click", scissorsAttack);
+paperBtn.addEventListener("click", paperAttack);
 
-
-let botChoice = botChoiceMaker();
 
 function botChoiceMaker() {
   let randomNumber = Math.floor(Math.random() * 3);
   switch (randomNumber) {
     case 0:
-      return (botChoice = "rock");
+      return ("rock");
       break;
     case 1:
-      return (botChoice = "scissors");
+      return ("scissors");
       break;
     case 2:
-      return (botChoice = "paper");
+      return ("paper");
       break;
     default:
       alert("ERROR! 💀");
   }
 }
 
-let userAttack = userChoiceDecider();
+let botChoice = botChoiceMaker();
 
-function userChoiceDecider(attack) {
-  return attack; 
+function rockAttack(){
+  gameOn('rock')
 }
+function scissorsAttack(){
+  gameOn('scissors')
+}
+function paperAttack(){
+  gameOn('paper')
+}
+
 function gameOn(userAttack){
   if(userAttack == 'rock' && botChoice == 'scissors'){
-    resultMaker(userAttack, botChoice, won)
+    resultMaker(userAttack, botChoice, `won`)
   } else if (userAttack === 'scissors' && botChoice === 'paper') {
-    resultMaker(userAttack, botChoice, won);
+    resultMaker(userAttack, botChoice, `won`);
   } else if (userAttack === 'paper' && botChoice === 'rock') {
-    resultMaker(userAttack, botChoice, won);
+    resultMaker(userAttack, botChoice, `won`);
   } else if (userAttack === botChoice) {
-    resultMaker(userAttack, botChoice, tie);
+    resultMaker(userAttack, botChoice, `tie`);
   } else {
-    resultMaker(botChoice, userAttack, lost);
+    resultMaker(botChoice, userAttack, `lost`);
   }
 }
 function resultMaker(userAttack, botChoice, result){
@@ -56,6 +61,7 @@ function resultMaker(userAttack, botChoice, result){
   resultContainer.appendChild(resultElement);
 }
 
-// function resultMaker(winner, loser) {
-//   console.log(winner + ' beats ' + loser + '. ' + winner + ' wins!');
-// }
+//todo
+//battle number
+//put the result in a box where you can scroll
+//after three battles, the B03 wins!
