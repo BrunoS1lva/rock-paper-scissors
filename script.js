@@ -1,4 +1,6 @@
-// let wins = 0;
+// let userWins = 0;
+// let botWins = 0;
+// let numberBattles = 0;
 
 //Getting the elements from the html
 let rockBtn = document.getElementById("rock-btn");
@@ -9,7 +11,6 @@ let paperBtn = document.getElementById("paper-btn");
 rockBtn.addEventListener("click", rockAttack);
 scissorsBtn.addEventListener("click", scissorsAttack);
 paperBtn.addEventListener("click", paperAttack);
-
 
 function botChoiceMaker() {
   let randomNumber = Math.floor(Math.random() * 3);
@@ -42,23 +43,31 @@ function paperAttack(){
 
 function gameOn(userAttack){
   if(userAttack == 'rock' && botChoice == 'scissors'){
-    resultMaker(userAttack, botChoice, `won`)
+    resultMaker(userAttack, botChoice, `WON 🥳`)
   } else if (userAttack === 'scissors' && botChoice === 'paper') {
-    resultMaker(userAttack, botChoice, `won`);
+    resultMaker(userAttack, botChoice, `WON 🥳`);
   } else if (userAttack === 'paper' && botChoice === 'rock') {
-    resultMaker(userAttack, botChoice, `won`);
+    resultMaker(userAttack, botChoice, `WON 🥳`);
   } else if (userAttack === botChoice) {
-    resultMaker(userAttack, botChoice, `tie`);
+    resultMaker(userAttack, botChoice, `TIE`);
   } else {
-    resultMaker(botChoice, userAttack, `lost`);
+    resultMaker(botChoice, userAttack, `LOST 🥲`);
   }
 }
 function resultMaker(userAttack, botChoice, result){
-  let resultElement = document.createElement('p');
-  let resultText = document.createTextNode(`You ${result} because you chose ${userAttack} and the bot chose ${botChoice}.`)
-  let resultContainer = document.getElementById('result-container');
-  resultElement.appendChild(resultText);
-  resultContainer.appendChild(resultElement);
+  if(result == 'WON 🥳' || result == 'LOST 🥲'){
+    let resultElement = document.createElement('p');
+    let resultText = document.createTextNode(`You ${result} because you chose ${userAttack} and the bot chose ${botChoice}.`)
+    let resultContainer = document.getElementById('result-container');
+    resultElement.appendChild(resultText);
+    resultContainer.appendChild(resultElement);
+  }else{
+    let resultElement = document.createElement('p');
+    let resultText = document.createTextNode(`It's a TIE! because you chose ${userAttack} and the bot chose ${botChoice}.`)
+    let resultContainer = document.getElementById('result-container');
+    resultElement.appendChild(resultText);
+    resultContainer.appendChild(resultElement);
+  }
 }
 
 //todo
