@@ -65,3 +65,4 @@ function resultMaker(userAttack, botChoice, result){
 //battle number
 //put the result in a box where you can scroll
 //after three battles, the B03 wins!
+
