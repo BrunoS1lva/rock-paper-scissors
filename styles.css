@@ -46,3 +46,9 @@ h2{
     width: 150px;
     height: 150px;
 }
+#lifes{
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
