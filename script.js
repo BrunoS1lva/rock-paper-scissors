@@ -1,4 +1,3 @@
-
 let userWins = 0;
 let botWins = 0;
 let numberBattles = 0;
@@ -9,74 +8,70 @@ let botLifes = 3;
 let rockBtn = document.getElementById("rock-btn");
 let scissorsBtn = document.getElementById("scissors-btn");
 let paperBtn = document.getElementById("paper-btn");
-let reloadBtn = document.getElementById("try-again-btn")
+let reloadBtn = document.getElementById("try-again-btn");
 
-let botLifesSpan = document.getElementById('botSpan');
-let playerLifesSpan = document.getElementById('userSpan');
+let botLifesSpan = document.getElementById("botSpan");
+let playerLifesSpan = document.getElementById("userSpan");
 
-  rockBtn.disable = false;
-  scissorsBtn.disable = false;
-  paperBtn.disable= false;
+rockBtn.disable = false;
+scissorsBtn.disable = false;
+paperBtn.disable = false;
 
 //Adding the eventListener to every button
 rockBtn.addEventListener("click", rockAttack);
 scissorsBtn.addEventListener("click", scissorsAttack);
 paperBtn.addEventListener("click", paperAttack);
-reloadBtn.addEventListener('click', resetGame)
+reloadBtn.addEventListener("click", resetGame);
 
 function botChoiceMaker() {
   let randomNumber = Math.floor(Math.random() * 3);
   switch (randomNumber) {
     case 0:
       return "rock";
-      break;
     case 1:
       return "scissors";
-      break;
     case 2:
       return "paper";
-      break;
     default:
       alert("ERROR! 💀");
   }
 }
 
-let botChoice = botChoiceMaker();
-
 function rockAttack() {
-  if(!rockBtn.disable){
+  if (!rockBtn.disable) {
     gameOn("rock");
   }
 }
 function scissorsAttack() {
-  if(!rockBtn.disable){
+  if (!rockBtn.disable) {
     gameOn("scissors");
   }
 }
 function paperAttack() {
-  if(!rockBtn.disable){
+  if (!rockBtn.disable) {
     gameOn("paper");
   }
 }
 
 function gameOn(userAttack) {
+  let botChoice = botChoiceMaker();
   if (userAttack == "rock" && botChoice == "scissors") {
-    battle('player');
+    battle("player");
     resultMaker(userAttack, botChoice, `WON 🥳`);
     numberBattles++;
   } else if (userAttack === "scissors" && botChoice === "paper") {
-    battle('player');
+    battle("player");
     resultMaker(userAttack, botChoice, `WON 🥳`);
     numberBattles++;
   } else if (userAttack === "paper" && botChoice === "rock") {
-    battle('player');
+    battle("player");
     resultMaker(userAttack, botChoice, `WON 🥳`);
     numberBattles++;
   } else if (userAttack === botChoice) {
     resultMaker(userAttack, botChoice, `TIE`);
     numberBattles++;
   } else {
-    battle('bot');
+    battle("bot");
     resultMaker(botChoice, userAttack, `LOST 🥲`);
     numberBattles++;
   }
@@ -101,29 +96,31 @@ function resultMaker(userAttack, botChoice, result) {
   }
 }
 
-function disableBtns(){
+function disableBtns() {
   rockBtn.disable = true;
   scissorsBtn.disable = true;
-  paperBtn.disable= true;
+  paperBtn.disable = true;
 
-  reloadBtn.style.display = 'block'
+  reloadBtn.style.display = "block";
 
-  rockBtn.style.backgroundColor = 'black';
-  scissorsBtn.style.backgroundColor = 'black';
-  paperBtn.style.backgroundColor = 'black';
+  rockBtn.style.backgroundColor = "transparent";
+  scissorsBtn.style.backgroundColor = "transparent";
+  paperBtn.style.backgroundColor = "transparent";
 }
 
-function resetGame(){
-  document.location.reload();  // Reload page to start over again
+function resetGame() {
+  document.location.reload(); // Reload page to start over again
 }
 function battle(battleWinner) {
   if (battleWinner == "player") {
     userWins++;
-    lifeChecker(userLifes, botLifes--);
+    botLifes--;
+    lifeChecker(botLifes);
     console.log(`The user is winning for ${userWins}`);
   } else if (battleWinner == "bot") {
     botWins++;
-    lifeChecker(userLifes--, botLifes);
+    userLifes--;
+    lifeChecker(userLifes);
     console.log(`The CPU is winning for ${botWins}`);
   }
 
@@ -139,34 +136,32 @@ function battle(battleWinner) {
     disableBtns();
   }
 }
-function lifeChecker(userLifes, botLifes){
-  switch(userLifes){
-    case 2:
-      playerLifesSpan.value == `❤️❤️`;
-      break;
-      case 1:
-        playerLifesSpan.value == `❤️`;
+function lifeChecker(undefinedLife){
+  if(undefinedLife == botLifes){
+    switch(botLifes){
+      case 2:
+        document.getElementById('botLifes').innerHTML = 'BOT ❤️❤️';
         break;
-        case 0:
-          playerLifesSpan.value == `☠️`;
+        case 1:
+          document.getElementById('botLifes').innerHTML = 'BOT ❤️';
           break;
-          default: console.log('error');
-  }
-  switch(botLifes){
-    case 2:
-      botLifesSpan.value == `❤️❤️`;
-      break;
-      case 1:
-        botLifesSpan.value == `❤️`;
+          case 0:
+            document.getElementById('botLifes').innerHTML = 'BOT ☠️';
+            break;
+        default:
+    }
+  }else if(undefinedLife == userLifes){
+    switch(userLifes){
+      case 2:
+        document.getElementById('userLifes').innerHTML = 'YOU ❤️❤️';
         break;
-        case 0:
-          botLifesSpan.value == `☠️`;
+        case 1:
+          document.getElementById('userLifes').innerHTML = 'YOU ❤️';
           break;
-          default: console.log('error');
+          case 0:
+            document.getElementById('userLifes').innerHTML = 'YOU ☠️';
+            break;
+        default:
+    }
   }
 }
-
-//todo
-//battle number
-//put the result in a box where you can scroll
-//after three battles, the B03 wins!
