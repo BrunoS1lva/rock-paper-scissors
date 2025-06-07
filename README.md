@@ -22,9 +22,12 @@ El usuario elige entre piedra, papel o tijera y se enfrenta contra un bot que se
 - **JavaScript** – Lógica principal y funcionamiento del juego.
 - **SweetAlert** – Librería para mostrar alertas personalizadas al finalizar la partida.
 
-## 👀 Vista previa
+## 🖼️ Vista previa
 
-> Pronto estará disponible una demo online. Por ahora, podés clonar el repositorio y abrir el archivo `index.html` para jugar desde tu navegador.
+Podés probar el juego directamente en tu navegador desde el siguiente enlace:
+
+👉 [Jugar la demo en línea](https://brunos1lva.github.io/rock-paper-scissors/)
+
 
 ## 🔁 Funcionalidades destacadas
 
@@ -33,8 +36,9 @@ El usuario elige entre piedra, papel o tijera y se enfrenta contra un bot que se
 - Contador de vidas dinámico para cada jugador.
 - Botón para reiniciar el juego sin recargar manualmente.
 - Desactivación de botones al finalizar la partida.
-```plaintext
+
 ## 📂 Estructura de carpetas
+```plaintext
 piedra-papel-tijera/
 │
 ├── index.html
