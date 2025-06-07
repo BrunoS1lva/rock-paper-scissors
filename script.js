@@ -4,103 +4,97 @@ let numberBattles = 0;
 let userLifes = 3;
 let botLifes = 3;
 
-//Getting the elements from the html
-let rockBtn = document.getElementById("rock-btn");
-let scissorsBtn = document.getElementById("scissors-btn");
-let paperBtn = document.getElementById("paper-btn");
-let reloadBtn = document.getElementById("try-again-btn");
+const rockBtn = document.getElementById("rock-btn");
+const scissorsBtn = document.getElementById("scissors-btn");
+const paperBtn = document.getElementById("paper-btn");
+const reloadBtn = document.getElementById("try-again-btn");
 
-let botLifesSpan = document.getElementById("botSpan");
-let playerLifesSpan = document.getElementById("userSpan");
+const userHeartsSpan = document.getElementById("user-hearts");
+const botHeartsSpan = document.getElementById("bot-hearts");
+const resultContainer = document.getElementById("result-container");
 
-rockBtn.disable = false;
-scissorsBtn.disable = false;
-paperBtn.disable = false;
+function saveState() {
+  const state = {
+    userWins,
+    botWins,
+    numberBattles,
+    userLifes,
+    botLifes,
+    resultsHTML: resultContainer.innerHTML,
+  };
+  localStorage.setItem("rpsGameState", JSON.stringify(state));
+}
 
-//Adding the eventListener to every button
-rockBtn.addEventListener("click", rockAttack);
-scissorsBtn.addEventListener("click", scissorsAttack);
-paperBtn.addEventListener("click", paperAttack);
+function loadState() {
+  const saved = localStorage.getItem("rpsGameState");
+  if (!saved) return false;
+  try {
+    const state = JSON.parse(saved);
+    userWins = state.userWins;
+    botWins = state.botWins;
+    numberBattles = state.numberBattles;
+    userLifes = state.userLifes;
+    botLifes = state.botLifes;
+    resultContainer.innerHTML = state.resultsHTML;
+    updateLifesDisplay();
+    if (userWins >= 3 || botWins >= 3) {
+      disableBtns();
+      reloadBtn.style.display = "block";
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+rockBtn.disabled = false;
+scissorsBtn.disabled = false;
+paperBtn.disabled = false;
+
+rockBtn.addEventListener("click", () => gameOn("rock"));
+scissorsBtn.addEventListener("click", () => gameOn("scissors"));
+paperBtn.addEventListener("click", () => gameOn("paper"));
 reloadBtn.addEventListener("click", resetGame);
 
 function botChoiceMaker() {
-  let randomNumber = Math.floor(Math.random() * 3);
-  switch (randomNumber) {
-    case 0:
-      return "rock";
-    case 1:
-      return "scissors";
-    case 2:
-      return "paper";
-    default:
-      alert("ERROR! 💀");
-  }
-}
-
-function rockAttack() {
-  if (!rockBtn.disable) {
-    gameOn("rock");
-  }
-}
-function scissorsAttack() {
-  if (!rockBtn.disable) {
-    gameOn("scissors");
-  }
-}
-function paperAttack() {
-  if (!rockBtn.disable) {
-    gameOn("paper");
-  }
+  return ["rock", "scissors", "paper"][Math.floor(Math.random() * 3)];
 }
 
 function gameOn(userAttack) {
-  let botChoice = botChoiceMaker();
-  if (userAttack == "rock" && botChoice == "scissors") {
+  if (rockBtn.disabled) return;
+  const botChoice = botChoiceMaker();
+  numberBattles++;
+  if (
+    (userAttack === "rock" && botChoice === "scissors") ||
+    (userAttack === "scissors" && botChoice === "paper") ||
+    (userAttack === "paper" && botChoice === "rock")
+  ) {
     battle("player");
-    resultMaker(userAttack, botChoice, `WON 🥳`);
-    numberBattles++;
-  } else if (userAttack === "scissors" && botChoice === "paper") {
-    battle("player");
-    resultMaker(userAttack, botChoice, `WON 🥳`);
-    numberBattles++;
-  } else if (userAttack === "paper" && botChoice === "rock") {
-    battle("player");
-    resultMaker(userAttack, botChoice, `WON 🥳`);
-    numberBattles++;
+    resultMaker(userAttack, botChoice, "WON 🥳");
   } else if (userAttack === botChoice) {
-    resultMaker(userAttack, botChoice, `TIE`);
-    numberBattles++;
+    resultMaker(userAttack, botChoice, "TIE");
   } else {
     battle("bot");
-    resultMaker(botChoice, userAttack, `LOST 🥲`);
-    numberBattles++;
+    resultMaker(botChoice, userAttack, "LOST 🥲");
   }
+  saveState();
 }
+
 function resultMaker(userAttack, botChoice, result) {
-  if (result == "WON 🥳" || result == "LOST 🥲") {
-    let resultElement = document.createElement("p");
-    let resultText = document.createTextNode(
-      `ROUND ${numberBattles} | You ${result} because you chose ${userAttack} and the bot chose ${botChoice}.`
-    );
-    let resultContainer = document.getElementById("result-container");
-    resultElement.appendChild(resultText);
-    resultContainer.appendChild(resultElement);
+  const resultElement = document.createElement("p");
+  if (result === "WON 🥳" || result === "LOST 🥲") {
+    resultElement.textContent = `ROUND ${numberBattles} | You ${result} because you chose ${userAttack} and the bot chose ${botChoice}.`;
   } else {
-    let resultElement = document.createElement("p");
-    let resultText = document.createTextNode(
-      `ROUND ${numberBattles} | It's a TIE! because you chose ${userAttack} and the bot chose ${botChoice}.`
-    );
-    let resultContainer = document.getElementById("result-container");
-    resultElement.appendChild(resultText);
-    resultContainer.appendChild(resultElement);
+    resultElement.textContent = `ROUND ${numberBattles} | It's a TIE! because you chose ${userAttack} and the bot chose ${botChoice}.`;
   }
+  resultContainer.appendChild(resultElement);
+  resultContainer.scrollTop = resultContainer.scrollHeight;
 }
 
 function disableBtns() {
-  rockBtn.disable = true;
-  scissorsBtn.disable = true;
-  paperBtn.disable = true;
-
+  rockBtn.disabled = true;
+  scissorsBtn.disabled = true;
+  paperBtn.disabled = true;
   reloadBtn.style.display = "block";
 
   rockBtn.style.backgroundColor = "transparent";
@@ -109,59 +103,36 @@ function disableBtns() {
 }
 
 function resetGame() {
-  document.location.reload(); // Reload page to start over again
+  localStorage.removeItem("rpsGameState");
+  location.reload();
 }
+
 function battle(battleWinner) {
-  if (battleWinner == "player") {
+  if (battleWinner === "player") {
     userWins++;
     botLifes--;
-    lifeChecker(botLifes);
-    console.log(`The user is winning for ${userWins}`);
-  } else if (battleWinner == "bot") {
+  } else if (battleWinner === "bot") {
     botWins++;
     userLifes--;
-    lifeChecker(userLifes);
-    console.log(`The CPU is winning for ${botWins}`);
   }
+  updateLifesDisplay();
 
-  if (userWins == 3) {
+  if (userWins === 3) {
     swal("You won the match! You are a master of Rock Paper Scissors!!", {
-      button: `Let's goo`,
+      button: "Let's goo",
     });
     disableBtns();
-  } else if (botWins == 3) {
+  } else if (botWins === 3) {
     swal("SKYNET wins this time!", {
-      button: `Better luck next time!`,
+      button: "Better luck next time!",
     });
     disableBtns();
   }
 }
-function lifeChecker(undefinedLife){
-  if(undefinedLife == botLifes){
-    switch(botLifes){
-      case 2:
-        document.getElementById('botLifes').innerHTML = 'BOT ❤️❤️';
-        break;
-        case 1:
-          document.getElementById('botLifes').innerHTML = 'BOT ❤️';
-          break;
-          case 0:
-            document.getElementById('botLifes').innerHTML = 'BOT ☠️';
-            break;
-        default:
-    }
-  }else if(undefinedLife == userLifes){
-    switch(userLifes){
-      case 2:
-        document.getElementById('userLifes').innerHTML = 'YOU ❤️❤️';
-        break;
-        case 1:
-          document.getElementById('userLifes').innerHTML = 'YOU ❤️';
-          break;
-          case 0:
-            document.getElementById('userLifes').innerHTML = 'YOU ☠️';
-            break;
-        default:
-    }
-  }
+
+function updateLifesDisplay() {
+  userHeartsSpan.textContent = "❤️".repeat(userLifes) + (userLifes === 0 ? "☠️" : "");
+  botHeartsSpan.textContent = "❤️".repeat(botLifes) + (botLifes === 0 ? "☠️" : "");
 }
+
+loadState();
