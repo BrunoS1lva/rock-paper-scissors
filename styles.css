@@ -1,55 +1,135 @@
-@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@600&family=Handjet:wght@300;500;900&family=Heebo:wght@300;500;700&family=Noto+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap');
 
-body{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Heebo';
-    background-color: antiquewhite;
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Heebo', sans-serif;
+  background-color: antiquewhite;
+  padding: 10px;
+  box-sizing: border-box;
 }
-#main-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
+#main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  width: 100%;
+  background: #fff;
+  padding: 20px 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
-.buttons{
-    font-size: 50px;
-    width: 100px;
-    height: 100px;
-    border-radius: 8px;
-    border: 0;
-    cursor: pointer;
-    margin: 4px;
-    background-color: white;
+
+h1 {
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
 }
-h2{
-    font-size: 20px;
+
+#buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
-#try-again-btn{
-    display: none;
-    width: 100px;
-    height: 50px;
-    border-radius: 8px;
-    box-sizing: border-box;
-    font-size: 15px;
-    font-family: serif;
+
+.buttons {
+  font-size: 48px;
+  width: 90px;
+  height: 90px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background-color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  user-select: none;
 }
-#try-again-btn:hover{
-    width: 120px;
-    height: 80px;
-    font-size: 20px;
+
+.buttons:hover:not(:disabled) {
+  transform: scale(1.2);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
-.buttons:hover{
-    font-size: 60px;
-    width: 150px;
-    height: 150px;
+
+.buttons:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none !important;
+  box-shadow: none !important;
 }
-#lifes{
-    width: 300px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+
+#lifes {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+#lifes p {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+#battlelog-h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+  width: 100%;
+}
+
+#result-container {
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#try-again-btn {
+  display: none;
+  font-size: 16px;
+  width: 120px;
+  height: 45px;
+  border-radius: 10px;
+  font-family: serif;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#try-again-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive */
+
+@media (max-width: 420px) {
+  #buttons-container {
+    gap: 6px;
+  }
+  .buttons {
+    width: 70px;
+    height: 70px;
+    font-size: 36px;
+  }
+  #main-container {
+    max-width: 100%;
+    padding: 15px 10px;
+  }
 }
